@@ -23,7 +23,7 @@ d3.queue()
 
     function ready(error,us) {
 
-        
+
         console.log(us.objects.counties)
         if (error) throw error;
     
@@ -34,6 +34,6 @@ d3.queue()
             .enter().append("path")
                 .attr("d",path)
                 .style("fill","white")
-                .style("stroke","black")
+                .style("stroke","black");
     }
 
