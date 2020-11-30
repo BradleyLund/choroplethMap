@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
 	<title>Mapping with D3</title>
+   
+</head>
+<body>
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo.v1.min.js"></script>
     <script src="https://d3js.org/d3-queue.v3.min.js"></script>
     <script src="https://d3js.org/d3-queue.v3.min.js"></script>
-</head>
-<body>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+
 	<!-- Page elements and content go here. -->
 	<script>
 		// Our D3 code will go here.
@@ -28,10 +32,16 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+    //check what is the fooking difference between the mit data and this data and try again
+
 d3.queue()
     .defer(d3.json, "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json")
     .defer(d3.json, "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json")
     .await(ready);
+
+    // .defer(d3.json, "http://duspviz.mit.edu/_assets/data/us.json")
+    // .defer(d3.json, "http://duspviz.mit.edu/_assets/data/us.json")
+
 
 function ready(error, us) {
   if (error) throw error;
@@ -46,6 +56,7 @@ function ready(error, us) {
       .style("stroke", "black");
 }
 
+console.log(topojson)
 
 	</script>	
 </body>

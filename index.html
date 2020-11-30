@@ -1,70 +1,59 @@
 <!DOCTYPE html>
+
 <html>
-    <head>
-        <title>Choropleth-Map</title>
-        <link rel="stylesheet" href="style.css">
-
-
-
+    <head><meta charset="utf-8">
+        <style>
+        
+            .states {
+            fill: none;
+            stroke: #fff;
+            stroke-linejoin: round;
+            }
+        
+        </style>
     </head>
-
-    <body>
-
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="https://d3js.org/topojson.v2.min.js"></script>
-        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-        <!-- <script src ="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
-
-
-
-        <div id="title">Choropleth map displaying some stats about USA educational attainment</div>
-
-        <div id="description">Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)</div>
-
-
-
-        <!-- <script src="map.js"></script> -->
-        <script>
-            var width = 720;
-var height = 500;
-
-// var projection = d3.geoAlbers()
-//     .scale(1000)
-//     .translate([width / 2, height/2]);
-
-// var path = d3.geoPath()
-//     .projection(projection);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height",height);
-
-
-
-
-
-d3.queue()
-    .defer(d3.json,'https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json')
-    .await(ready)
-
-
-    function ready(error,us) {
-
-
-        console.log(us.objects.counties)
-        if (error) throw error;
     
-        svg.append("g")
-            .attr("class", "counties")
-            .selectAll("path")
-                .data(topojson.feature(us,us.objects.counties.geometries).features)
-            .enter().append("path")
-                .attr("class","county")
-                .style("fill","white")
-                .style("stroke","black");
+    
+    <body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script>
+    
+    var width = 720,
+        height = 500;
+    
+    var projection = d3.geoAlbers()
+        .scale(1000)
+        .translate([width / 2, height / 2]);
+    
+    var path = d3.geoPath()
+        .projection(projection);
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+    
+    d3.queue()
+        .defer(d3.json, "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json")
+        // .defer(d3.json, "http://duspviz.mit.edu/_assets/data/us.json")
+        .await(ready);
+    
+    function ready(error, us) {
+      if (error) throw error;
+      
+      svg.append("g")
+          .attr("class", "counties")
+        .selectAll("path")
+          .data(topojson.feature(us, us.objects.counties).features)
+        .enter().append("path")
+          .attr("d", path)
+          .style("fill", "white")
+          .style("stroke", "black");
     }
-        </script>
-
-    </body>
-
+    
+    </script>
+</body>
 </html>
