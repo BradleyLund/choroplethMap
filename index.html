@@ -9,6 +9,10 @@
             stroke: #fff;
             stroke-linejoin: round;
             }
+
+            body {
+                text-align: center;
+            }
         
         </style>
     </head>
@@ -20,7 +24,7 @@
     <script src="https://d3js.org/d3-geo.v1.min.js"></script>
     <script src="https://d3js.org/d3-queue.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
     <script>
     
     var width =1000,
@@ -36,12 +40,25 @@
         .attr("height", height);
     
     d3.queue()
-        .defer(d3.json, "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json")
-        .defer(d3.json, "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json")
+        .defer(d3.json, "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json")
+        .defer(d3.json, "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json")
         .await(ready);
+
+    var color = d3.scaleThreshold()
+        .domain([10,20,30,40,50])
+        .range(['#DC1C13','#F07470','#F6BDC0','#A3A3FF','#4949FF','#0000FF'])
+
+        // console.log(color(14))
     
-    function ready(error, us) {
+    function ready(error, us, education) {
       if (error) throw error;
+
+      var edubyID = {};
+      education.forEach(function(d){
+          edubyID[d.fips] = d.bachelorsOrHigher
+      })
+      
+      console.log(edubyID)
       
       svg.append("g")
           .attr("class", "counties")
@@ -49,7 +66,10 @@
           .data(topojson.feature(us, us.objects.counties).features)
         .enter().append("path")
           .attr("d", path)
-          .style("fill", "white")
+          .style("fill", function(d) {
+              console.log(d)
+              return color(edubyID[d.id])
+          })
           .style("stroke", "black");
     }
     
