@@ -19,12 +19,15 @@
     
     
     <body>
+
+    <div id ="title">Choropleth map showing education levels in USA</div>
+    <div id = "description">Description</div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo.v1.min.js"></script>
     <script src="https://d3js.org/d3-queue.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
     <script>
     
     var width =1000,
@@ -67,10 +70,18 @@
         .enter().append("path")
           .attr("d", path)
           .style("fill", function(d) {
-              console.log(d)
+            //   console.log(d)
               return color(edubyID[d.id])
           })
-          .style("stroke", "black");
+          .style("stroke", "black")
+          .attr('class','county')
+          .attr('data-education',d => {
+              return edubyID[d.id]
+          })
+          .attr('data-fips',function(d) {
+            return d.id
+            })
+           
     }
     
     </script>
