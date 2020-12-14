@@ -22,6 +22,7 @@
 
     <div id ="title">Choropleth map showing education levels in USA</div>
     <div id = "description">Description</div>
+    <div id = "legend"></div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo.v1.min.js"></script>
@@ -37,6 +38,14 @@
     )
     
     var path = d3.geoPath();
+
+    var tooltip = d3.select('body').append('div')
+    .attr("id", "tooltip")
+    .style("opacity",0)
+
+    d3.select('body').append('div')
+      .attr('id','tooltip')
+      .attr('style','position:absolute; opacity: 0;')
     
     var svg = d3.select("body").append("svg")
         .attr("width", width)
@@ -81,6 +90,13 @@
           .attr('data-fips',function(d) {
             return d.id
             })
+          .on('mouseover',function(d,i) {
+            tooltip.transition()
+              .style('opacity',1)
+              .attr('data-education',edubyID[d.id])
+            tooltip.html('HELLO')
+        
+      }         )
            
     }
     
